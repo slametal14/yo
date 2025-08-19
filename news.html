@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier League News Today</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #38003c 0%, #00ff85 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .date {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-img {
+            height: 200px;
+            background-color: #38003c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-content h3 {
+            color: #38003c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .news-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .source {
+            font-style: italic;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        .breaking-news {
+            background: linear-gradient(135deg, #ff003c 0%, #ff8a00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .breaking-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        
+        .fixtures {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .fixtures h2 {
+            color: #38003c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00ff85;
+        }
+        
+        .match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .match:last-child {
+            border-bottom: none;
+        }
+        
+        .team {
+            display: flex;
+            align-items: center;
+            width: 40%;
+        }
+        
+        .home-team {
+            justify-content: flex-end;
+        }
+        
+        .away-team {
+            justify-content: flex-start;
+        }
+        
+        .team-name {
+            margin: 0 10px;
+            font-weight: 500;
+        }
+        
+        .vs {
+            width: 20%;
+            text-align: center;
+            font-weight: bold;
+            color: #38003c;
+        }
+        
+        .league-table {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .league-table h2 {
+            color: #38003c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00ff85;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+            color: #38003c;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .position {
+            font-weight: bold;
+            width: 40px;
+        }
+        
+        .club {
+            display: flex;
+            align-items: center;
+        }
+        
+        .club-logo {
+            width: 25px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #38003c;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #777;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .breaking-news {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .breaking-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .team {
+                width: 35%;
+            }
+            
+            .vs {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Premier League News</h1>
+            <p class="date">Tuesday, August 19, 2025</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="breaking-news">
+            <div class="breaking-icon">⚡</div>
+            <div>
+                <h2>Breaking News: Isak Transfer Saga Continues</h2>
+                <p>Alexander Isak absent from Newcastle squad, expected to miss PFA Awards amid Liverpool interest</p>
+            </div>
+        </div>
+        
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #c9002b 0%, #38003c 100%);">ISAK TRANSFER</div>
+                <div class="news-content">
+                    <h3>Isak Refuses to Play for Newcastle</h3>
+                    <p>Alexander Isak did not feature for Newcastle in their Premier League opener and is not expected to attend tonight's PFA Awards. The striker insists he won't play for Newcastle again following strong interest from Liverpool.</p>
+                    <p class="source">Source: The Athletic, ESPN</p>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #d00027 0%, #8a0e14 100%);">LIVERPOOL SALES</div>
+                <div class="news-content">
+                    <h3>Liverpool Pass £200m in Player Sales</h3>
+                    <p>Liverpool have surpassed £200m in player sales this summer following the £25m sale of Ben Doak to Bournemouth. Doak's move is the latest in a series of sales that have pushed Liverpool's revenue past the symbolic figure.</p>
+                    <p class="source">Source: ESPN</p>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #da291c 0%, #000000 100%);">GARNACHO INTEREST</div>
+                <div class="news-content">
+                    <h3>Chelsea Prepare Garnacho Bid</h3>
+                    <p>Manchester United are preparing for a bid from Chelsea for Alejandro Garnacho. The young Argentine is reportedly keen on a move to Stamford Bridge.</p>
+                    <p class="source">Source: Daily Mail, ESPN</p>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #132257 0%, #7f0000 100%);">PALACE DUO</div>
+                <div class="news-content">
+                    <h3>Eze & Guehi in Transfer Spotlight</h3>
+                    <p>Tottenham are in a "one-horse race" to sign Eberechi Eze from Crystal Palace, while Liverpool are interested in Marc Guehi. Palace will only sell Eze if they can sign one or two forwards first.</p>
+                    <p class="source">Source: The Athletic, Daily Mail</p>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #ef0107 0%, #9c824a 100%);">WEEKEND RESULTS</div>
+                <div class="news-content">
+                    <h3>Opening Weekend Results & Performances</h3>
+                    <p>Arsenal defeated Manchester United 1-0 at Old Trafford thanks to a Riccardo Calafiori goal. Manchester City opened with a 4-0 win over Wolves, while Leeds celebrated their Premier League return with a controversial 1-0 win over Everton.</p>
+                    <p class="source">Source: The National, Arseblog</p>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-img" style="background: linear-gradient(135deg, #000000 0%, #667572 100%);">UNITED GOALKEEPER CRISIS</div>
+                <div class="news-content">
+                    <h3>Man United's Goalkeeper Crisis</h3>
+                    <p>Altay Bayindir's error against Arsenal has led to calls from experts, including Gary Neville, that Manchester United "undoubtedly" need a new goalkeeper.</p>
+                    <p class="source">Source: Daily Mail, ESPN</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fixtures">
+            <h2>Today's Fixtures</h2>
+            <div class="match">
+                <div class="team home-team">
+                    <span class="team-name">Arsenal</span>
+                    <div class="club-logo">A</div>
+                </div>
+                <div class="vs">19:45</div>
+                <div class="team away-team">
+                    <div class="club-logo">L</div>
+                    <span class="team-name">Leicester</span>
+                </div>
+            </div>
+            <div class="match">
+                <div class="team home-team">
+                    <span class="team-name">Chelsea</span>
+                    <div class="club-logo">C</div>
+                </div>
+                <div class="vs">20:00</div>
+                <div class="team away-team">
+                    <div class="club-logo">M</div>
+                    <span class="team-name">Man City</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="league-table">
+            <h2>Premier League Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Club</th>
+                        <th>PL</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="position">1</td>
+                        <td><div class="club"><div class="club-logo">MCI</div> Man City</div></td>
+                        <td>1</td>
+                        <td>+4</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td class="position">2</td>
+                        <td><div class="club"><div class="club-logo">ARS</div> Arsenal</div></td>
+                        <td>1</td>
+                        <td>+1</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td class="position">3</td>
+                        <td><div class="club"><div class="club-logo">LIV</div> Liverpool</div></td>
+                        <td>1</td>
+                        <td>+2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td class="position">4</td>
+                        <td><div class="club"><div class="club-logo">LEE</div> Leeds</div></td>
+                        <td>1</td>
+                        <td>+1</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td class="position">5</td>
+                        <td><div class="club"><div class="club-logo">BOU</div> Bournemouth</div></td>
+                        <td>1</td>
+                        <td>+1</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 Premier League News | All information sourced from reliable outlets</p>
+        </div>
+    </footer>
+</body>
+</html>
